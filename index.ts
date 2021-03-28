@@ -67,6 +67,11 @@ class DrawingUtil {
         DrawingUtil.drawTriPath(context, triSize, scale)
         context.restore()
     }
+
+    static drawWSBNode(context : CanvasRenderingContext2D, i : number, scale : number) {
+        context.fillStyle = colors[i]
+        DrawingUtil.drawWedgeSideBar(context, scale)
+    }
 }
 
 class Stage {
@@ -141,5 +146,47 @@ class Animator {
             this.animated = false 
             clearInterval(this.interval)
         }
+    }
+}
+
+class WSBNode {
+
+    prev : WSBNode 
+    next : WSBNode 
+    state : State = new State() 
+
+    constructor(private i : number) {
+        this.addNeighbor()
+    }
+
+    addNeighbor() {
+        if (this.i < colors.length - 1) {
+            this.next = new WSBNode(this.i + 1)
+            this.next.prev = this 
+        }
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        DrawingUtil.drawWSBNode(context, this.i, this.state.scale)
+    }
+
+    update(cb : Function) {
+        this.state.update(cb)
+    }
+
+    startUpating(cb : Function) {
+        this.state.startUpdating(cb)
+    }
+    
+    getNext(dir : number, cb : Function) : WSBNode {
+        var curr : WSBNode = this.prev 
+        if (dir == 1) {
+            curr = this.next 
+        }
+        if (curr) {
+            return curr 
+        }
+        cb()
+        return this 
     }
 }
