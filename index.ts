@@ -174,7 +174,7 @@ class WSBNode {
         this.state.update(cb)
     }
 
-    startUpating(cb : Function) {
+    startUpdating(cb : Function) {
         this.state.startUpdating(cb)
     }
     
@@ -188,5 +188,28 @@ class WSBNode {
         }
         cb()
         return this 
+    }
+}
+
+class WedgeSideBar {
+
+    curr : WSBNode = new WSBNode(0)
+    dir : number = 1
+
+    draw(context : CanvasRenderingContext2D) {
+
+    }
+
+    update(cb : Function) {
+        this.curr.update(() => {
+            this.curr = this.curr.getNext(this.dir, () => {
+                this.dir *= -1
+            })
+            cb()
+        })
+    } 
+    
+    startUpdating(cb : Function) {
+        this.curr.startUpdating(cb)
     }
 }
