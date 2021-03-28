@@ -213,3 +213,24 @@ class WedgeSideBar {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    wsb : WedgeSideBar = new WedgeSideBar()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.wsb.draw(context)
+    }
+
+    handleTap(cb : Function)  {
+        this.wsb.startUpdating(() => {
+            this.animator.start(() => {
+                this.wsb.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
