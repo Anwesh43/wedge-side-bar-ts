@@ -34,7 +34,7 @@ class DrawingUtil {
     static drawBarPath(context : CanvasRenderingContext2D, barH : number, triSize : number) {
         context.beginPath()
         context.moveTo(-w / 2, -barH)
-        context.lineTo(-w / 2 + (w / 2 - triSize), -barH)
+        context.lineTo(-w / 2 + (w / 2 - barH), -barH)
         context.lineTo(0, 0)
         context.lineTo(-w / 2, 0)
         context.lineTo(-w / 2, -barH)
@@ -64,7 +64,7 @@ class DrawingUtil {
             context.fillRect(-w / 2, -barH, w / 2  * sf1, barH)
             context.restore()
         }
-        DrawingUtil.drawTriPath(context, triSize, scale)
+        DrawingUtil.drawTriPath(context, triSize, sf2)
         context.restore()
     }
 
@@ -201,7 +201,7 @@ class WedgeSideBar {
     dir : number = 1
 
     draw(context : CanvasRenderingContext2D) {
-
+        this.curr.draw(context)
     }
 
     update(cb : Function) {
